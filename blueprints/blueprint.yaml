@@ -1,1 +1,67 @@
+name: NTT-demo
+version: 1.0
+formatVersion: 1
+inputs:
+  VM_OS:
+    type: string
+    enum:
+      - centos
+      - win2k16
+      - win2k19
+    description: Select the Virtual Machine OS
+    default: centos
+    title: Select VM OS
+  VM_HOSTNAME:
+    type: string
+    description: 'Enter Hostname for the VM. Alphanumeric Only format and dash -. Max Length: 15, Min Length: 5, Cannot start or end with: -'
+    title: Hostname
+    minLength: 5
+    maxLength: 15
+    pattern: '^[a-zA-Z0-9][a-zA-Z0-9\-]{1,11}[a-zA-Z0-9]$'
+  VM_Size:
+    type: string
+    enum:
+      - lab-small
+      - lab-medium
+      - lab-large
+    default: lab-small
+    title: Select the Size of the Virtual machine
+  Syste_Drive_Size:
+    type: integer
+    default: 16
+    title: Specify Size For System Disk
+    minimum: 16
+    maximum: 100
+  Data_Drive:
+    type: integer
+    default: 5
+    title: Enter the size in GB of the Data Drive
+    minimum: 1
+    maximum: 10
+resources:
+  Cloud_Volume_1:
+    type: Cloud.Volume
+    properties:
+      capacityGb: '${input.Data_Drive}'
+      count: 1
+  NTT_VM:
+    type: Cloud.Machine
+    properties:
+      image: '${input.VM_OS}'
+      flavor: '${input.VM_Size}'
+      folderName: vRA8 Lab
+      hostName: '${input.VM_HOSTNAME}'
+      cloudConfig: |
+        runcmd:
+        - hostnamectl set-hostname ${input.VM_HOSTNAME}
+      networks:
+        - network: '${resource.Cloud_Network_1.id}'
+          assignment: dynamic
+      storage:
+        bootDiskCapacityInGB: '${input.Syste_Drive_Size}'
+      attachedDisks: '${map_to_object(resource.Cloud_Volume_1[*].id, "source")}'
+  Cloud_Network_1:
+    type: Cloud.Network
+    properties:
+      networkType: existing
 

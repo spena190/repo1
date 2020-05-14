@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:workflow xmlns:ns2="http://vmware.com/vco/workflow" root-name="item2" object-name="workflow:name=generic" id="c8d5b840-3a8b-4fba-9cc7-210951f5735e" editor-version="2.0" version="0.0.0" api-version="6.0.0" restartMode="1" resumeFromFailedMode="0">
+    <display-name>stalin-test1</display-name>
+    <position y="50.0" x="100.0"/>
+    <input>
+        <param name="target" type="string"/>
+    </input>
+    <output/>
+    <workflow-item name="item0" type="end" end-mode="0" comparator="0">
+        <in-binding/>
+        <out-binding/>
+        <position y="50.0" x="390.0"/>
+    </workflow-item>
+    <workflow-item name="item2" out-name="item0" type="task" comparator="0">
+        <display-name>Scriptable task</display-name>
+        <runtime>python:3.7</runtime>
+        <script encoded="false">def handler(context, inputs):
+    greeting = "Hello, {0}!".format(inputs["target"])
+    print(greeting)
+
+    outputs = {
+      "greeting": greeting
+    }
+
+    return outputs
+
+</script>
+        <in-binding>
+            <bind name="target" type="string" export-name="target"/>
+        </in-binding>
+        <out-binding/>
+        <description>Simple task with custom script capability.</description>
+        <position y="60.0" x="240.0"/>
+    </workflow-item>
+    <presentation/>
+</ns2:workflow>

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dunes-script-module name="getVMbyName_Stalin" result-type="VC:VirtualMachine" api-version="6.0.0" id="71df0fdd-1ae3-42a2-a93b-2e061382c74b" version="1.0.0" category-name="com.vmware.basic">
+  <param n="name" t="string"><![CDATA[]]></param>
+  <script encoded="false"><![CDATA[var allVms = VcPlugin.getAllVirtualMachines();
+
+for (var i in allVms) {
+    if (allVms[i].name === name) {
+        return allVms[i];
+    }
+}
+return null;]]></script>
+</dunes-script-module>

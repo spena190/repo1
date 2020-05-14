@@ -1,0 +1,14 @@
+---
+exportVersion: "1"
+exportId: "8a7480167204f050017214805412000d"
+name: "test2"
+runtime: "python"
+entrypoint: "handler"
+inputs:
+  target: "World"
+timeoutSeconds: 180
+deploymentTimeoutSeconds: 600
+actionType: "SCRIPT"
+configuration:
+  const_azure-system_managed_identity: false
+memoryInMB: 300
